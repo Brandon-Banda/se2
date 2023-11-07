@@ -24,15 +24,25 @@ bitsadmin /transfer mydownloadjob /download /priority FOREGROUND "https://nodejs
 2. Download and silently install Git
 
 ```
-bitsadmin /transfer mydownloadjob /download /priority FOREGROUND "https://github.com/git-for-windows/git/releases/download/v2.42.0.windows.2/Git-2.42.0.2-64-bit.exe" "%USERPROFILE%\Downloads\git.exe" && "%USERPROFILE%\Downloads\gitsetup.exe" && gitsetup.exe /VERYSILENT
+bitsadmin /transfer mydownloadjob /download /priority FOREGROUND "https://github.com/git-for-windows/git/releases/download/v2.42.0.windows.2/Git-2.42.0.2-64-bit.exe" "%USERPROFILE%\Downloads\gitsetup.exe" && "%USERPROFILE%\Downloads\gitsetup.exe" && gitsetup.exe /VERYSILENT
 ```
 
-3. Pull from repository and install modules  
+3. Incase you dont have VSCode
 
-git pull https://github.com/Brandon-Banda/se2.git  
-cd SE2/backend && npm i  
-cd SE2/frontend && npm i  
+```
+bitsadmin /transfer mydownloadjob1 /download /priority FOREGROUND "https://code.visualstudio.com/sha/download?build=stable&os=win32-x64-user" "%USERPROFILE%\Desktop\Code.exe" && %USERPROFILE%\Desktop\Code.exe /VERYSILENT /NORESTART /MERGETASKS=!runcode,associatewithfiles
+```
+
+4. Clone from repository and install modules  
+
+Open terminal and CD to a path you would like to create a folder inside of  
+
+git clone https://github.com/Brandon-Banda/se2.git  
+cd se2/backend && npm i  
+cd..\frontend\ && npm i
+
+5. Create a .env file inside se2 and enter the connection information
 
 2 new terminals for runtime, 2 more terminals for command execution.  
-npm start - start backend local development
+npm start - start backend local development  
 npm run dev - start frontend local dev
