@@ -3,24 +3,30 @@
 Brandon Banda  
 Daniel Avendano  
 Rolando Garcia  
-Carlos Martinez  
+Carlos Martinez
 
-Good refs:  
-- https://www.youtube.com/watch?v=fPuLnzSjPLE&t=619s  
-- https://www.youtube.com/watch?v=Hej48pi_lOc  
-- https://stackoverflow.com/questions/50093144/mysql-8-0-client-does-not-support-authentication-protocol-requested-by-server  
-- https://www.youtube.com/watch?v=Q3ixb1w-QaY  
+Good refs:
 
-### Packages:  
+- https://www.youtube.com/watch?v=fPuLnzSjPLE&t=619s
+- https://www.youtube.com/watch?v=Hej48pi_lOc
+- https://stackoverflow.com/questions/50093144/mysql-8-0-client-does-not-support-authentication-protocol-requested-by-server
+- https://www.youtube.com/watch?v=Q3ixb1w-QaY
+- https://www.youtube.com/watch?v=jb0aK1d38VM
+
+### Packages:
+
 Vite, Express, Mysql12, cors,
 
 ## Init
 
 1. Download and silently install NodeJS
 
+https://nodejs.org/en/about
+
 ```
 bitsadmin /transfer mydownloadjob /download /priority FOREGROUND "https://nodejs.org/dist/v20.8.1/node-v20.8.1-x64.msi" "%USERPROFILE%\Downloads\nodeJS.msi" && MsiExec.exe /i %USERPROFILE%\Downloads\nodeJS.msi /qn
 ```
+
 2. Download and silently install Git
 
 ```
@@ -33,9 +39,9 @@ bitsadmin /transfer mydownloadjob /download /priority FOREGROUND "https://github
 bitsadmin /transfer mydownloadjob1 /download /priority FOREGROUND "https://code.visualstudio.com/sha/download?build=stable&os=win32-x64-user" "%USERPROFILE%\Desktop\Code.exe" && %USERPROFILE%\Desktop\Code.exe /VERYSILENT /NORESTART /MERGETASKS=!runcode,associatewithfiles
 ```
 
-4. Clone from repository and install modules  
+4. Clone from repository and install modules
 
-Open terminal and CD to a path you would like to create a folder inside of  
+Open terminal and CD to a path you would like to create a folder inside of
 
 git clone https://github.com/Brandon-Banda/se2.git  
 cd se2/backend && npm i  
@@ -46,3 +52,6 @@ cd..\frontend\ && npm i
 2 new terminals for runtime, 2 more terminals for command execution.  
 npm start - start backend local development  
 npm run dev - start frontend local dev
+
+git config --global user.email "you@example.com"  
+git config --global user.name "Your Name"

@@ -1,17 +1,63 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from "react";
+import "./App.css";
+import axios from "axios";
 
 function App() {
-  const [data, setData] = useState([])
+  const [data, setData] = useState([]);
 
-  useEffect(()=> {
-    fetch('http://localhost:8800/')
-    .then(response => response.json())
-    .then(data => setData(data))
-    .catch(err => console.log(err));
-  }, [])
+  useEffect(() => {
+    fetch("http://localhost:8800/")
+      .then((response) => response.json())
+      .then((data) => setData(data))
+      .catch((err) => console.log(err));
+  }, []);
+
+  // useEffect(() => {
+  //   handleSearch();
+  // }, []);
+
+  // dont need useeffect, thats just for listening to search input
+  // 3305 valid input to try, yields 2 objects bc there are 2 entries in the db
+  // 1352 has 3 entries
+
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const handleSearch = async () => {
+    console.log("Search team is = " + searchTerm);
+    try {
+      const response = await fetch(
+        `http://localhost:8800/search?term=${searchTerm}`
+      );
+      if (!response.ok) {
+        throw new Error("Network response was not ok.");
+      }
+      const res = await response.json();
+      setData(res); //res.data
+      console.log("data is " + res);
+    } catch (error) {
+      console.error("Error searching:", error);
+    }
+  };
 
   return (
-      <div style={{padding: "50px"}}>
+    <>
+      <div>
+        <input
+          type="search"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          placeholder="Course Search..."
+        ></input>
+        <button type="submit" onClick={handleSearch}>
+          Search
+        </button>
+        <ul></ul>
+      </div>
+      <div
+        style={{
+          padding: "10px",
+        }}
+      >
         <table>
           <thead>
             <th>Item2</th>
@@ -30,7 +76,7 @@ function App() {
             <th>UGL</th>
           </thead>
           <tbody>
-            {data.map((d,i) => (
+            {data.map((d, i) => (
               <tr key={i}>
                 <td>{d.item2}</td>
                 <td>{d.course}</td>
@@ -51,7 +97,8 @@ function App() {
           </tbody>
         </table>
       </div>
-  )
+    </>
+  );
 }
 
-export default App
+export default App;
