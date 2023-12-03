@@ -10,6 +10,8 @@ app.use(cors());
 
 app.use(bodyParser.json());
 
+// https://www.sammeechward.com/connect-to-mysql-from-node
+
 const db = mysql.createConnection({
   host: process.env.HOST,
   user: process.env.USER,
@@ -32,8 +34,24 @@ app.get("/", (request, response) => {
 // Able to search and display a certain record
 app.get("/search", (request, response) => {
   const searchTerm = request.query.term;
-  const query = `SELECT * FROM cbmtable1 WHERE course LIKE '${searchTerm}'`;
-  console.log("searchTerm is " + searchTerm + " and query is " + query);
+  const category = request.query.category;
+
+  const query = `SELECT * FROM cbmtable1 WHERE ${category} LIKE '${searchTerm}'`;
+
+  console.log(
+    "searchTerm is " +
+      searchTerm +
+      " and category is " +
+      category +
+      " and query is " +
+      query
+  );
+
+  if (!searchTerm || !category) {
+    return response
+      .status(400)
+      .json({ error: "Both 'term' and 'category' are required parameters." });
+  }
 
   db.query(query, (err, data) => {
     if (err) {

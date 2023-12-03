@@ -29,6 +29,8 @@ function App() {
 
 function Main() {
   const [data, setData] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("Item2");
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     fetch("http://localhost:8800/")
@@ -41,20 +43,18 @@ function Main() {
   // 3305 valid input to try, yields 2 objects bc there are 2 entries in the db
   // 1352 has 3 entries
 
-  const [searchTerm, setSearchTerm] = useState("");
-
   const handleSearch = async () => {
     console.log("Search team is = " + searchTerm);
     try {
       const response = await fetch(
-        `http://localhost:8800/search?term=${searchTerm}`
+        `http://localhost:8800/search?term=${searchTerm}&category=${selectedCategory}`
       );
       if (!response.ok) {
         throw new Error("Network response was not ok.");
       }
       const res = await response.json();
       setData(res);
-      console.log("data is " + res);
+      console.log("data is " + JSON.stringify(res)); // Use JSON.stringify to log the entire response
     } catch (error) {
       console.error("Error searching:", error);
     }
@@ -66,7 +66,37 @@ function Main() {
 
   return (
     <div className="pageContainer">
-      <div>
+      <div className="searchContainer">
+        <input
+          type="search"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          placeholder={`Search by ${selectedCategory}...`}
+        ></input>
+        <select
+          value={selectedCategory}
+          onChange={(e) => setSelectedCategory(e.target.value)}
+        >
+          <option value="Item2">Item2</option>
+          <option value="Course">Course</option>
+          <option value="CRN">CRN</option>
+          <option value="Building">Building</option>
+          <option value="Room">Room</option>
+          <option value="Days">Days</option>
+          <option value="Time">Time</option>
+          <option value="Duration">Duration</option>
+          <option value="Semester">Semester</option>
+          <option value="Year">Year</option>
+          <option value="Room_Type">Room Type</option>
+          <option value="Enrollment_Excess">Enrollment Excess</option>
+          <option value="Enrollment_De_Excess">Enrollment De Excess</option>
+          <option value="Enrollment_UGL_Affected">
+            Enrollment UGL Affected
+          </option>
+        </select>
+        <button type="submit" onClick={handleSearch}>
+          Search
+        </button>
         <Link
           style={{ color: "white", textDecoration: "none" }}
           to="/add-delete"
@@ -76,18 +106,6 @@ function Main() {
         <Link style={{ color: "white", textDecoration: "none" }} to="/">
           <button onClick={refreshPage}>Refresh</button>
         </Link>
-      </div>
-      <div>
-        <input
-          type="search"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          placeholder="Course Search..."
-        ></input>
-        <button type="submit" onClick={handleSearch}>
-          Search
-        </button>
-        <ul></ul>
       </div>
       <div
         style={{

@@ -45,3 +45,9 @@ th,
 td {
   border: 1px solid;
 }
+
+.searchContainer {
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+}
