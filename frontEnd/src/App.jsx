@@ -1,8 +1,33 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import axios from "axios";
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  Route,
+  Link,
+  Outlet,
+  RouterProvider,
+} from "react-router-dom";
+import AddDelete from "./components/AddDelete";
 
 function App() {
+  const router = createBrowserRouter(
+    createRoutesFromElements(
+      <>
+        <Route path="/" element={<Main />} />
+        <Route path="/add-delete" element={<AddDelete />} />
+      </>
+    )
+  );
+
+  return (
+    <div>
+      <RouterProvider router={router} />
+    </div>
+  );
+}
+
+function Main() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -11,10 +36,6 @@ function App() {
       .then((data) => setData(data))
       .catch((err) => console.log(err));
   }, []);
-
-  // useEffect(() => {
-  //   handleSearch();
-  // }, []);
 
   // dont need useeffect, thats just for listening to search input
   // 3305 valid input to try, yields 2 objects bc there are 2 entries in the db
@@ -32,15 +53,30 @@ function App() {
         throw new Error("Network response was not ok.");
       }
       const res = await response.json();
-      setData(res); //res.data
+      setData(res);
       console.log("data is " + res);
     } catch (error) {
       console.error("Error searching:", error);
     }
   };
 
+  const refreshPage = () => {
+    window.location.reload();
+  };
+
   return (
-    <>
+    <div className="pageContainer">
+      <div>
+        <Link
+          style={{ color: "white", textDecoration: "none" }}
+          to="/add-delete"
+        >
+          <button>Add/Delete</button>
+        </Link>
+        <Link style={{ color: "white", textDecoration: "none" }} to="/">
+          <button onClick={refreshPage}>Refresh</button>
+        </Link>
+      </div>
       <div>
         <input
           type="search"
@@ -60,9 +96,11 @@ function App() {
       >
         <table>
           <thead>
+            <th>Item1</th>
             <th>Item2</th>
             <th>Course</th>
             <th>CRN</th>
+            <th>Item6</th>
             <th>Building</th>
             <th>Room</th>
             <th>Days</th>
@@ -78,9 +116,11 @@ function App() {
           <tbody>
             {data.map((d, i) => (
               <tr key={i}>
+                <td>{d.item1}</td>
                 <td>{d.item2}</td>
                 <td>{d.course}</td>
                 <td>{d.crn}</td>
+                <td>{d.item6}</td>
                 <td>{d.building}</td>
                 <td>{d.room}</td>
                 <td>{d.days}</td>
@@ -97,7 +137,7 @@ function App() {
           </tbody>
         </table>
       </div>
-    </>
+    </div>
   );
 }
 
