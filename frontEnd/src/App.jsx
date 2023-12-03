@@ -116,6 +116,7 @@ function Main() {
           <thead>
             <th>Item1</th>
             <th>Item2</th>
+            <th>Subject</th>
             <th>Course</th>
             <th>CRN</th>
             <th>Item6</th>
@@ -127,15 +128,18 @@ function Main() {
             <th>Semester</th>
             <th>Year</th>
             <th>Room Type</th>
+            <th>Enrollment</th>
             <th>Excess</th>
             <th>DE</th>
             <th>UGL</th>
+            <th>UGU</th>
           </thead>
           <tbody>
             {data.map((d, i) => (
               <tr key={i}>
                 <td>{d.item1}</td>
                 <td>{d.item2}</td>
+                <td>{d.subject}</td>
                 <td>{d.course}</td>
                 <td>{d.crn}</td>
                 <td>{d.item6}</td>
@@ -147,9 +151,11 @@ function Main() {
                 <td>{d.semester}</td>
                 <td>{d.year}</td>
                 <td>{d.room_type}</td>
+                <td>{d.enrollment}</td>
                 <td>{d.enrollment_excess}</td>
                 <td>{d.enrollment_de_excess}</td>
                 <td>{d.enrollment_ugl_affected}</td>
+                <td>{d.enrollment_ugu_affected}</td>
               </tr>
             ))}
           </tbody>

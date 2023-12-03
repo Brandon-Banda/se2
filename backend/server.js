@@ -6,7 +6,7 @@ dotenv.config();
 const bodyParser = require("body-parser");
 
 const app = express();
-app.use(cors());
+app.use(cors({ origin: true, credentials: true }));
 
 app.use(bodyParser.json());
 
@@ -71,20 +71,62 @@ app.get("/search", (request, response) => {
 
 // VALUES ('5', '003639', '1337', '11111', 'X', '0509', '102', '135', '0800', '075', '2', '2017', '110', '001', '000', '027');
 
+// insertion of key-value pair JSON data into the query https://stackoverflow.com/questions/40930896/how-to-create-and-insert-a-json-object-using-mysql-queries
+
 app.post("/add", (request, response) => {
-  const query =
-    "INSERT INTO cbmtable1 (`item1`, `item2`, `subject`, `course`, `crn`, `item6`, `building`, `room`, `days`, `time`, `duration`, `semester`, `year`, `room_type`, `enrollment`, `enrollment_excess`, `enrollment_de_excess`, `enrollment_ugl_affected`, `enrollment_ugu_affected`) VALUES (?, ?, ?, ?, ?, ?, ? ,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+  const item1 = request.body.item1;
+  const item2 = request.body.item2;
+  const subject = request.body.subject;
+  const course = request.body.course;
+  const crn = request.body.crn;
+  const item6 = request.body.item6;
+  const building = request.body.building;
+  const room = request.body.room;
+  const days = request.body.days;
+  const time = request.body.time;
+  const duration = request.body.time;
+  const semester = request.body.semester;
+  const year = request.body.year;
+  const room_type = request.body.room_type;
+  const enrollment = request.body.enrollment;
+  const enrollment_excess = request.body.enrollment_excess;
+  const enrollment_de_excess = request.body.enrollment_de_excess;
+  const enrollment_ugl_affected = request.body.enrollment_ugl_affected;
+  const enrollment_ugu_affected = request.body.enrollment_ugu_affected;
+
+  const query = `INSERT INTO cbmtable1 (item1, item2, subject, course, crn, item6, building, room, days, time, duration, semester, year, room_type, enrollment, enrollment_excess, enrollment_de_excess, enrollment_ugl_affected, enrollment_ugu_affected) VALUES (?, ?, ?, ?, ?, ?, ? ,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
   // VALUES (?, ?, ?, ?, ?, ?, ? ,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 
-  const values = [req.query.item1, req.query.item2];
-
-  db.query(query, [values], (err, data) => {
-    if (err) {
-      console.error("Error executing MySQL query: ", err);
-      response.status(500).json({ error: "Error executing MySQL query" });
-      return;
+  db.query(
+    query,
+    [
+      item1,
+      item2,
+      subject,
+      course,
+      crn,
+      item6,
+      building,
+      room,
+      days,
+      time,
+      duration,
+      semester,
+      year,
+      room_type,
+      enrollment,
+      enrollment_excess,
+      enrollment_de_excess,
+      enrollment_ugl_affected,
+      enrollment_ugu_affected,
+    ],
+    (err, data) => {
+      if (err) {
+        console.error("Error executing MySQL query: ", err);
+      } else {
+        response.send("You have added an entry to the DB");
+      }
     }
-    response.json(data);
-  });
+  );
 });

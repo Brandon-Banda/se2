@@ -41,8 +41,13 @@ export default function AddDelete() {
     // instead of setting data i think i needa make separate states and ptu them in the axios object
 
     // https://jasonwatmore.com/post/2020/07/17/react-axios-http-post-request-examples
+    console.log("Submitting inputs to express server");
+    console.log(data);
+
+    // https://stackoverflow.com/questions/45980173/react-axios-network-error
+
     axios
-      .post("http://localhost:8800/add", { ...inputs })
+      .post("http://localhost:8800/add", inputs)
       .then((res) => {
         console.log(res);
       })
