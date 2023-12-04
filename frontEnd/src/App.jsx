@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import "./App.css";
+import axios from "axios";
 import {
   createBrowserRouter,
   createRoutesFromElements,
   Route,
   Link,
-  Outlet,
   RouterProvider,
 } from "react-router-dom";
 import AddDelete from "./components/AddDelete";
@@ -21,7 +21,7 @@ function App() {
   );
 
   return (
-    <div>
+    <div className="App">
       <RouterProvider router={router} />
     </div>
   );
@@ -30,7 +30,10 @@ function App() {
 function Main() {
   const [data, setData] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("Item2");
+  const [selectedCategory2, setSelectedCategory2] = useState("Item2");
   const [searchTerm, setSearchTerm] = useState("");
+  const [crnSearch, setCrnSearch] = useState("");
+  const [updatedValue, setUpdatedValue] = useState("");
 
   useEffect(() => {
     fetch("http://localhost:8800/")
@@ -60,6 +63,43 @@ function Main() {
     }
   };
 
+  const handleUpdate = () => {
+    const value = { value: updatedValue };
+    console.log("value to be sent is " + JSON.stringify(value));
+    console.log(
+      "CRN is " +
+        crnSearch +
+        " selected category is " +
+        selectedCategory2 +
+        " updated value is " +
+        updatedValue
+    );
+
+    //  `http://localhost:8800/update/?crn=${crnSearch}&category=${selectedCategory2}&value=${updatedValue}`
+
+    axios
+      .put(
+        `http://localhost:8800/update/${crnSearch}/${selectedCategory2}`,
+        value
+      )
+      .then((res) => {
+        console.log(res);
+        if (res.data.changedRows >= 1) {
+          alert(
+            "Updated " +
+              selectedCategory2 +
+              " of CRN " +
+              crnSearch +
+              " to " +
+              updatedValue
+          );
+        } else {
+          alert("Did not update");
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+
   const refreshPage = () => {
     window.location.reload();
   };
@@ -77,9 +117,12 @@ function Main() {
           value={selectedCategory}
           onChange={(e) => setSelectedCategory(e.target.value)}
         >
+          <option value="Item1">Item1</option>
           <option value="Item2">Item2</option>
+          <option value="subject">Subject</option>
           <option value="Course">Course</option>
           <option value="CRN">CRN</option>
+          <option value="Item6">Item6</option>
           <option value="Building">Building</option>
           <option value="Room">Room</option>
           <option value="Days">Days</option>
@@ -88,10 +131,14 @@ function Main() {
           <option value="Semester">Semester</option>
           <option value="Year">Year</option>
           <option value="Room_Type">Room Type</option>
+          <option value="Enrollment">Enrollment</option>
           <option value="Enrollment_Excess">Enrollment Excess</option>
           <option value="Enrollment_De_Excess">Enrollment De Excess</option>
           <option value="Enrollment_UGL_Affected">
             Enrollment UGL Affected
+          </option>
+          <option value="Enrollment_UGU_Affected">
+            Enrollment UGU Affected
           </option>
         </select>
         <button type="submit" onClick={handleSearch}>
@@ -107,6 +154,51 @@ function Main() {
           <button onClick={refreshPage}>Refresh</button>
         </Link>
       </div>
+      <div className="updateContainer">
+        <input
+          type="search"
+          value={crnSearch}
+          onChange={(e) => setCrnSearch(e.target.value)}
+          placeholder={"Enter CRN to Update"}
+        ></input>
+        <select
+          value={selectedCategory2}
+          onChange={(e) => setSelectedCategory2(e.target.value)}
+        >
+          <option value="Item1">Item1</option>
+          <option value="Item2">Item2</option>
+          <option value="subject">Subject</option>
+          <option value="Course">Course</option>
+          <option value="CRN">CRN</option>
+          <option value="Item6">Item6</option>
+          <option value="Building">Building</option>
+          <option value="Room">Room</option>
+          <option value="Days">Days</option>
+          <option value="Time">Time</option>
+          <option value="Duration">Duration</option>
+          <option value="Semester">Semester</option>
+          <option value="Year">Year</option>
+          <option value="Room_Type">Room Type</option>
+          <option value="Enrollment">Enrollment</option>
+          <option value="Enrollment_Excess">Enrollment Excess</option>
+          <option value="Enrollment_De_Excess">Enrollment De Excess</option>
+          <option value="Enrollment_UGL_Affected">
+            Enrollment UGL Affected
+          </option>
+          <option value="Enrollment_UGU_Affected">
+            Enrollment UGU Affected
+          </option>
+        </select>
+        <input
+          type="search"
+          value={updatedValue}
+          onChange={(e) => setUpdatedValue(e.target.value)}
+          placeholder={"Enter Updated Value"}
+        ></input>
+        <button type="submit" onClick={handleUpdate}>
+          Update
+        </button>
+      </div>
       <div
         style={{
           padding: "10px",
@@ -118,7 +210,7 @@ function Main() {
             <th>Item2</th>
             <th>Subject</th>
             <th>Course</th>
-            <th>CRN</th>
+            <th>CRN*</th>
             <th>Item6</th>
             <th>Building</th>
             <th>Room</th>

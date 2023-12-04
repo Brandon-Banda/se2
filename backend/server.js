@@ -6,7 +6,13 @@ dotenv.config();
 const bodyParser = require("body-parser");
 
 const app = express();
-app.use(cors({ origin: true, credentials: true }));
+app.use(
+  cors({
+    origin: true,
+    credentials: true,
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  })
+);
 
 app.use(bodyParser.json());
 
@@ -67,13 +73,10 @@ app.get("/search", (request, response) => {
 
 // Able to add and delete a record
 
-// INSERT INTO cbmtable1 (item1, item2, subject, course, crn, item6, building, room, days, time, duration, semester, year, room_type, enrollment, enrollment_excess, enrollment_de_excess, enrollment_ugl_affected, enrollment_ugu_affected)
-
-// VALUES ('5', '003639', '1337', '11111', 'X', '0509', '102', '135', '0800', '075', '2', '2017', '110', '001', '000', '027');
-
 // insertion of key-value pair JSON data into the query https://stackoverflow.com/questions/40930896/how-to-create-and-insert-a-json-object-using-mysql-queries
 
 app.post("/add", (request, response) => {
+  // can make a const values = [req.body.whatever, etc]
   const item1 = request.body.item1;
   const item2 = request.body.item2;
   const subject = request.body.subject;
@@ -96,8 +99,7 @@ app.post("/add", (request, response) => {
 
   const query = `INSERT INTO cbmtable1 (item1, item2, subject, course, crn, item6, building, room, days, time, duration, semester, year, room_type, enrollment, enrollment_excess, enrollment_de_excess, enrollment_ugl_affected, enrollment_ugu_affected) VALUES (?, ?, ?, ?, ?, ?, ? ,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
-  // VALUES (?, ?, ?, ?, ?, ?, ? ,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-
+  // can change this to [...values]
   db.query(
     query,
     [
@@ -129,4 +131,32 @@ app.post("/add", (request, response) => {
       }
     }
   );
+});
+
+app.delete("/delete/:crn", (req, res) => {
+  const crn = req.params.crn;
+  console.log("CRN IS " + crn);
+  const q = `DELETE FROM cbmtable1 WHERE crn = ?`;
+
+  db.query(q, [crn], (err, data) => {
+    if (err) return res.send(err);
+    return res.json(data);
+  });
+});
+
+app.put("/update/:crn/:category", (req, res) => {
+  const crn = req.params.crn;
+  const category = req.params.category;
+
+  const q = `UPDATE cbmtable1 SET ${category} = ? WHERE crn = ?`;
+
+  const values = req.body.value;
+
+  console.log("CRN is " + crn);
+  console.log(values);
+
+  db.query(q, [values, crn], (err, data) => {
+    if (err) return res.send(err);
+    return res.json(data);
+  });
 });

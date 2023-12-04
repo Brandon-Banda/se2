@@ -51,3 +51,10 @@ td {
   justify-content: space-between;
   width: 65%;
 }
+
+.updateContainer {
+  display: flex;
+  justify-content: space-between;
+  width: 60%;
+  padding-top: 5px;
+}
