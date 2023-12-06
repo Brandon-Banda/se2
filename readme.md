@@ -55,7 +55,18 @@ cd se2/backend && npm i
 cd..\frontend\ && npm i
 ```
 
-5. Create a .env file inside /se2 and enter the connection information
+5. Create file called ".env" inside /se2/backend/ and enter the connection information
+
+This information would usually be confidential, but for the sake of simplicity: the contents of this file should be:
+
+```
+host = localhost
+user = root
+password = admin
+database = cbm
+```
+
+Or however you have your mysql server/DB configured.
 
 2 new terminals for runtime, 2 more terminals for command execution.
 
