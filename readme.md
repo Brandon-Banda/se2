@@ -5,19 +5,19 @@ Daniel Avendano
 Rolando Garcia  
 Carlos Martinez
 
-Good refs:
+# General Use
 
-- https://www.youtube.com/watch?v=fPuLnzSjPLE&t=619s
-- https://www.youtube.com/watch?v=Hej48pi_lOc
-- https://stackoverflow.com/questions/50093144/mysql-8-0-client-does-not-support-authentication-protocol-requested-by-server
-- https://www.youtube.com/watch?v=Q3ixb1w-QaY
-- https://www.youtube.com/watch?v=jb0aK1d38VM
+Home page shows the full list of entries that can be searched through via the Search button. You may also update data here.
+
+Clicking Add/Delete routes you to a separate page in which you can fill out a form to create an entry on submission.
+
+You may also delete an entry on this page using a unique CRN. Home button takes you back to view the DB.
 
 ### Packages:
 
 Vite, Express, Mysql12, cors,
 
-## Init
+## Initialization
 
 1. Download and silently install NodeJS
 
@@ -43,15 +43,38 @@ bitsadmin /transfer mydownloadjob1 /download /priority FOREGROUND "https://code.
 
 Open terminal and CD to a path you would like to create a folder inside of
 
-git clone https://github.com/Brandon-Banda/se2.git  
-cd se2/backend && npm i  
+```
+git clone https://github.com/Brandon-Banda/se2.git
+```
+
+```
+cd se2/backend && npm i
+```
+
+```
 cd..\frontend\ && npm i
+```
 
-5. Create a .env file inside se2 and enter the connection information
+5. Create a .env file inside /se2 and enter the connection information
 
-2 new terminals for runtime, 2 more terminals for command execution.  
-npm start - start backend local development  
-npm run dev - start frontend local dev
+2 new terminals for runtime, 2 more terminals for command execution.
 
-git config --global user.email "you@example.com"  
-git config --global user.name "Your Name"
+In terminal 1 for Backend:
+
+```
+cd backend && npm start
+```
+
+In terminal 2 for Frontend:
+
+```
+cd frontend && npm run dev
+```
+
+Good refs:
+
+- https://www.youtube.com/watch?v=fPuLnzSjPLE&t=619s
+- https://www.youtube.com/watch?v=Hej48pi_lOc
+- https://stackoverflow.com/questions/50093144/mysql-8-0-client-does-not-support-authentication-protocol-requested-by-server
+- https://www.youtube.com/watch?v=Q3ixb1w-QaY
+- https://www.youtube.com/watch?v=jb0aK1d38VM
